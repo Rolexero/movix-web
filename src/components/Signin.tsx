@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 import { Button } from "./Button";
 import { InputField } from "./InputField";
+import { Container, LoginSwitchWrapper, Wrapper } from "./Signup";
+import Logo from "/src/assets/Vector.png";
 
-interface SignupProps {}
+interface SigninProps {}
 
-export const SignupComponent: React.FC<SignupProps> = ({}) => {
+export const SigninComponent: React.FC<SigninProps> = ({}) => {
   const [passwordType, setPasswordType] = useState("password");
 
   const passwordTypeHandler = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -24,9 +26,8 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
       <Wrapper>
         <Icon icon="ri:movie-2-line" className="text-[70px] text-[#B91C1C]" />
         <h1>Hi, Welcome</h1>
-        <span>Please sign-up to your account and start your experience</span>
+        <span>Please sign-in to start your experience</span>
         <form>
-          <InputField placeholder="Full Name" type="text" />
           <InputField placeholder="Email" type="email" />
           <InputField
             placeholder="Password"
@@ -39,11 +40,11 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
             }
             onClickIcon={passwordTypeHandler}
           />
-          <Button value="REGISTER" />
+          <Button value="LOGIN" />
         </form>
         <LoginSwitchWrapper>
-          <span className="">Already have an account ?</span>
-          <Link to="/signin" className="mt-2 text-[#B91C1C]  hover:underline">
+          <span className="">Don't have an account?</span>
+          <Link to="/" className="mt-2 text-[#B91C1C]  hover:underline">
             Login
           </Link>
         </LoginSwitchWrapper>
@@ -51,31 +52,3 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
     </Container>
   );
 };
-
-export const Container = styled.div`
-  ${tw`h-[100vh] flex justify-center items-center `}
-  font-family: 'Work Sans', sans-serif;
-`;
-
-export const LoginSwitchWrapper = styled.div`
-  ${tw`flex gap-2 mt-4 items-center font-medium text-sm text-center`}
-`;
-
-export const Wrapper = styled.div`
-  ${tw` h-[604px] w-[450px] flex flex-col justify-center items-center m-auto container border-[1px] rounded-lg p-7`}
-  h1 {
-    ${tw`font-bold text-[18px] mt-4`}
-  }
-  span {
-    ${tw`font-medium text-[14px] mt-2 text-[#747474]`}
-  }
-
-  form {
-    ${tw`mt-6 w-full`};
-    input {
-      padding: 11px 20px;
-
-      ${tw`outline-none border-[1px] border-gray-300 rounded-lg w-full my-3 `}
-    }
-  }
-`;
