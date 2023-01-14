@@ -4,7 +4,7 @@ import tw, { styled } from "twin.macro";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const Button: React.FC<ButtonProps> = ({ ...props }: ButtonProps) => {
-  return <ButtonWrapper>{props.value}</ButtonWrapper>;
+  return <ButtonWrapper {...props}>{props.value}</ButtonWrapper>;
 };
 
 const ButtonWrapper = styled.button`

@@ -1,11 +1,20 @@
 import { Icon } from "@iconify/react";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import tw, { styled } from "twin.macro";
+import { SignUpSchema } from "../models/SignUpSchema";
+import { SignUpModel } from "../types/model";
 import { Button } from "./Button";
 import { InputField } from "./InputField";
 
 interface SignupProps {}
+
+const initialValues: SignUpModel = {
+  full_name: "",
+  email: "",
+  password: "",
+};
 
 export const SignupComponent: React.FC<SignupProps> = ({}) => {
   const [passwordType, setPasswordType] = useState("password");
@@ -19,16 +28,42 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
     }
   };
 
+  const { errors, values, handleSubmit, handleChange, setFieldValue } =
+    useFormik<SignUpModel>({
+      initialValues,
+      validationSchema: SignUpSchema,
+      validateOnChange: false,
+      validateOnBlur: false,
+      onSubmit: () => {
+        console.log(values);
+      },
+    });
+
   return (
     <Container>
       <Wrapper>
         <Icon icon="ri:movie-2-line" className="text-[70px] text-[#B91C1C]" />
         <h1>Hi, Welcome</h1>
         <span>Please sign-up to your account and start your experience</span>
-        <form>
-          <InputField placeholder="Full Name" type="text" />
-          <InputField placeholder="Email" type="email" />
+        <form onSubmit={handleSubmit}>
           <InputField
+            placeholder="Full Name"
+            type="text"
+            name="full_name"
+            onChange={handleChange}
+            value={values.full_name}
+          />
+          <InputField
+            placeholder="Email"
+            type="email"
+            name="email"
+            onChange={handleChange}
+            value={values.email}
+          />
+          <InputField
+            name="password"
+            value={values.password}
+            onChange={handleChange}
             placeholder="Password"
             type={passwordType}
             showPassword={true}
@@ -39,7 +74,7 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
             }
             onClickIcon={passwordTypeHandler}
           />
-          <Button value="REGISTER" />
+          <Button value="REGISTER" type="submit" />
         </form>
         <LoginSwitchWrapper>
           <span className="">Already have an account ?</span>
@@ -62,7 +97,7 @@ export const LoginSwitchWrapper = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  ${tw` h-[604px] w-[450px] flex flex-col justify-center items-center m-auto container border-[1px] rounded-lg p-7`}
+  ${tw` h-[604px] w-[450px] flex flex-col justify-center items-center m-auto container border-[1px] rounded-lg p-6`}
   h1 {
     ${tw`font-bold text-[18px] mt-4`}
   }
