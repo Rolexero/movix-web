@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useHttp from "../hooks/useHttp";
 import { SignInSchema } from "../models/SignUpSchema";
 import { RootState, useAppDispatch, useAppSelector } from "../store/configure";
 import { addAuthUser } from "../store/userslice";
@@ -19,7 +20,6 @@ const initialValues: SignInModel = {
 
 export const SigninComponent: React.FC<SigninProps> = ({}) => {
   const [passwordType, setPasswordType] = useState("password");
-  const dispatch = useAppDispatch();
 
   const passwordTypeHandler = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
@@ -30,6 +30,8 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
     }
   };
 
+  const { signIn } = useHttp();
+
   const { errors, values, handleSubmit, handleChange, setFieldValue } =
     useFormik<SignInModel>({
       initialValues,
@@ -37,11 +39,9 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
       validateOnChange: false,
       validateOnBlur: false,
       onSubmit: () => {
-        dispatch(addAuthUser({ token: "va;", full_name: "name" }));
+        signIn(values);
       },
     });
-
-  const persons = useAppSelector((state: RootState) => state.User);
 
   return (
     <Container>
@@ -49,7 +49,6 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
         <Icon icon="ri:movie-2-line" className="text-[70px] text-[#B91C1C]" />
         <h1>Hi, Welcome</h1>
         <span>Please sign-in to start your experience</span>
-        <p>person: {persons.token}</p>
         <form onSubmit={handleSubmit}>
           <InputField
             placeholder="Email"

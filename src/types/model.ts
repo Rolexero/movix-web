@@ -1,7 +1,7 @@
 export interface SignUpModel {
-  full_name: string;
+  displayName: string;
   email: string;
   password: string;
 }
 
-export type SignInModel = Omit<SignUpModel, "full_name">;
+export type SignInModel = Omit<SignUpModel, "displayName">;

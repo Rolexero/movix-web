@@ -7,17 +7,20 @@ import { SignUpSchema } from "../models/SignUpSchema";
 import { SignUpModel } from "../types/model";
 import { Button } from "./Button";
 import { InputField } from "./InputField";
+import useHttp from "../hooks/useHttp";
 
 interface SignupProps {}
 
 const initialValues: SignUpModel = {
-  full_name: "",
+  displayName: "",
   email: "",
   password: "",
 };
 
 export const SignupComponent: React.FC<SignupProps> = ({}) => {
   const [passwordType, setPasswordType] = useState("password");
+
+  const { signUp, isLoading, isSuccess } = useHttp();
 
   const passwordTypeHandler = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
@@ -28,16 +31,22 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
     }
   };
 
-  const { errors, values, handleSubmit, handleChange, setFieldValue } =
-    useFormik<SignUpModel>({
-      initialValues,
-      validationSchema: SignUpSchema,
-      validateOnChange: false,
-      validateOnBlur: false,
-      onSubmit: () => {
-        console.log(values);
-      },
-    });
+  const {
+    errors,
+    values,
+    handleSubmit,
+    handleChange,
+    setFieldValue,
+    resetForm,
+  } = useFormik<SignUpModel>({
+    initialValues,
+    validationSchema: SignUpSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: () => {
+      signUp(values);
+    },
+  });
 
   return (
     <Container>
@@ -49,9 +58,9 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
           <InputField
             placeholder="Full Name"
             type="text"
-            name="full_name"
+            name="displayName"
             onChange={handleChange}
-            value={values.full_name}
+            value={values.displayName}
           />
           <InputField
             placeholder="Email"
@@ -74,7 +83,12 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
             }
             onClickIcon={passwordTypeHandler}
           />
-          <Button value="REGISTER" type="submit" />
+          <Button
+            value={isLoading ? "Please wait..." : "REGISTER"}
+            type="submit"
+            disabled={isLoading}
+            className="disabled:cursor-not-allowed"
+          />
         </form>
         <LoginSwitchWrapper>
           <span className="">Already have an account ?</span>
