@@ -14,14 +14,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [show, handleShow] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 50) {
         handleShow(true);
       } else {
         handleShow(false);
       }
     });
     return () => {
-      window.removeEventListener("scroll", () => {});
+      window.removeEventListener("scroll", () => {
+        handleShow(false);
+      });
     };
   }, []);
   return (

@@ -6,10 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/configure";
 import { Toaster } from "react-hot-toast";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

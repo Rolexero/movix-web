@@ -8,22 +8,26 @@ import { SignupComponent } from "./components/Signup";
 import { SigninComponent } from "./components/Signin";
 import { Protectedroute } from "./Route/Protectedroute";
 import { MovixComponent } from "./components/Movix";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="signup" />} />
-      <Route path="/signup" element={<SignupComponent />} />
-      <Route path="/signin" element={<SigninComponent />} />
-      <Route
-        path="/homepage"
-        element={
-          <Protectedroute>
-            <MovixComponent />
-          </Protectedroute>
-        }
-      />
-    </Routes>
+    <div>
+      <Routes>
+        <Route path="/" element={<Navigate to="signup" />} />
+        <Route path="/signup" element={<SignupComponent />} />
+        <Route path="/signin" element={<SigninComponent />} />
+        <Route
+          path="/homepage"
+          element={
+            <Protectedroute>
+              <MovixComponent />
+            </Protectedroute>
+          }
+        />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
