@@ -61,6 +61,8 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
             name="displayName"
             onChange={handleChange}
             value={values.displayName}
+            isError={Boolean(errors.displayName)}
+            helperText={errors.displayName ? `*${errors.displayName}` : ""}
           />
           <InputField
             placeholder="Email"
@@ -68,6 +70,8 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
             name="email"
             onChange={handleChange}
             value={values.email}
+            isError={Boolean(errors.email)}
+            helperText={errors.email ? `*${errors.email}` : ""}
           />
           <InputField
             name="password"
@@ -82,6 +86,8 @@ export const SignupComponent: React.FC<SignupProps> = ({}) => {
                 : "akar-icons:eye-slashed"
             }
             onClickIcon={passwordTypeHandler}
+            isError={Boolean(errors.password)}
+            helperText={errors.password ? `*${errors.password}` : ""}
           />
           <Button
             value={isLoading ? "Please wait..." : "REGISTER"}
@@ -123,8 +129,7 @@ export const Wrapper = styled.div`
     ${tw`mt-6 w-full`};
     input {
       padding: 11px 20px;
-
-      ${tw`outline-none border-[1px] border-gray-300 rounded-lg w-full my-3 `}
+      ${tw`outline-none  rounded-lg w-full my-3 `}
     }
   }
 `;

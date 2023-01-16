@@ -56,6 +56,8 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
             name="email"
             onChange={handleChange}
             value={values.email}
+            isError={Boolean(errors.email)}
+            helperText={errors.email ? `*${errors.email}` : ""}
           />
           <InputField
             name="password"
@@ -64,6 +66,8 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
             placeholder="Password"
             type={passwordType}
             showPassword={true}
+            isError={Boolean(errors.password)}
+            helperText={errors.password ? `*${errors.password}` : ""}
             rightIcon={
               passwordType === "text"
                 ? "akar-icons:eye-open"
