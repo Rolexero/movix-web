@@ -30,7 +30,7 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
     }
   };
 
-  const { signIn } = useHttp();
+  const { signIn, isLoading } = useHttp();
 
   const { errors, values, handleSubmit, handleChange, setFieldValue } =
     useFormik<SignInModel>({
@@ -71,7 +71,12 @@ export const SigninComponent: React.FC<SigninProps> = ({}) => {
             }
             onClickIcon={passwordTypeHandler}
           />
-          <Button value="LOGIN" type="submit" />
+          <Button
+            value={isLoading ? "Please wait..." : "LOGIN"}
+            type="submit"
+            disabled={isLoading}
+            className="disabled:cursor-not-allowed"
+          />
         </form>
         <LoginSwitchWrapper>
           <span className="">Don't have an account?</span>

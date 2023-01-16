@@ -50,48 +50,52 @@ const useHttp = () => {
     [navigate]
   );
 
-  const signIn = useCallback(async (signinData: SignInModel) => {
-    setIsLoading(true);
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        signinData.email,
-        signinData.password
-      )
-        .then(async (user) => {
-          toast.success("Successfully logged in");
-          const docRef = doc(db, "users", user.user.uid);
-          try {
-            const docSnap = await getDoc(docRef);
-            dispatch(
-              addAuthUser({
-                token: docSnap?.data()?.uid,
-                displayName: docSnap?.data()?.displayName,
-                email: docSnap?.data()?.email,
-              })
-            );
+  const signIn = useCallback(
+    async (signinData: SignInModel) => {
+      setIsLoading(true);
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          signinData.email,
+          signinData.password
+        )
+          .then(async (user) => {
+            toast.success("Successfully logged in");
+            const docRef = doc(db, "users", user.user.uid);
+            try {
+              const docSnap = await getDoc(docRef);
+              dispatch(
+                addAuthUser({
+                  token: docSnap?.data()?.uid,
+                  displayName: docSnap?.data()?.displayName,
+                  email: docSnap?.data()?.email,
+                })
+              );
 
-            console.log(docSnap.data());
-          } catch (error) {
-            console.log(error);
-          }
-          navigate("/homepage");
-        })
-        .catch((err) => {
-          if (err.message.includes("wrong-password")) {
-            toast.error("Invalid Password");
-          }
-          if (err.message.includes("user-not-found")) {
-            toast.error("User not found");
-          }
-        });
-    } catch (error) {
-      let message;
-      if (error instanceof Error) message = error.message;
-      else message = String(error);
-      toast.error(message);
-    }
-  }, []);
+              console.log(docSnap.data());
+            } catch (error) {
+              console.log(error);
+            }
+            navigate("/homepage");
+          })
+          .catch((err) => {
+            if (err.message.includes("wrong-password")) {
+              toast.error("Invalid Password");
+            }
+            if (err.message.includes("user-not-found")) {
+              toast.error("User not found");
+            }
+          });
+      } catch (error) {
+        let message;
+        if (error instanceof Error) message = error.message;
+        else message = String(error);
+        toast.error(message);
+      }
+      setIsLoading(false);
+    },
+    [dispatch, navigate]
+  );
 
   return { signUp, isLoading, isSuccess, signIn };
 };
